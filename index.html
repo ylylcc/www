@@ -46,7 +46,7 @@ body{
 h1{text-align:center;margin:6px 0;font-size:22px;color:var(--accent2)}
 .title{text-align:center;font-size:14px;color:var(--muted);margin-bottom:24px}
 .section{margin-top:24px}
-.contact div, .education div, .certification div, .skills div{margin:6px 0;font-size:14px; line-height:1.6}
+.contact div, .skills div, .job div, .project div, .portfolio div{margin:6px 0;font-size:14px; line-height:1.6}
 .skills .skill{display:inline-block;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 10px;margin:4px 4px 4px 0;font-size:13px;color:var(--accent2)}
 .right{
   padding:36px 32px; display:flex; flex-direction:column; gap:28px; overflow-y:auto; position:relative;
@@ -61,6 +61,9 @@ h2{color:var(--accent); border-bottom:2px solid rgba(0,0,0,0); display:inline-bl
 ul{margin:6px 0 0 20px; padding:0} li{margin-bottom:4px; line-height:1.5}
 a{color:var(--accent2); text-decoration:underline}
 .download{display:block;margin:22px auto 0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
+table{width:100%; border-collapse:collapse; margin-top:8px}
+table th, table td{border:1px solid rgba(255,255,255,0.2); padding:8px; text-align:left}
+table th{background:rgba(0,198,174,0.3)}
 </style>
 </head>
 <body>
@@ -84,12 +87,6 @@ a{color:var(--accent2); text-decoration:underline}
       <div>🌐 GitHub：github.com/yourname</div>
     </div>
 
-    <div class="section education">
-      <h3>教育背景</h3>
-      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
-      <div>北京理工大学 · 信息管理与信息系统 · 2020.09 – 2022.07</div>
-    </div>
-
     <div class="section skills">
       <h3>专业技能</h3>
       <div class="skill">Java</div>
@@ -101,16 +98,22 @@ a{color:var(--accent2); text-decoration:underline}
       <div class="skill">Docker</div>
     </div>
 
-    <div class="section certification">
-      <h3>证书</h3>
-      <div>Oracle Java SE 11 Programmer</div>
-      <div>PMP 项目管理专业认证</div>
-    </div>
-
     <button id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
   </aside>
 
   <section class="right">
+    <div class="section">
+      <h2>教育背景</h2>
+      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
+      <div>北京理工大学 · 信息管理与信息系统 · 2020.09 – 2022.07</div>
+    </div>
+
+    <div class="section">
+      <h2>证书</h2>
+      <div>Oracle Java SE 11 Programmer</div>
+      <div>PMP 项目管理专业认证</div>
+    </div>
+
     <div class="section">
       <h2>工作经历</h2>
       <div class="job">
@@ -139,22 +142,33 @@ a{color:var(--accent2); text-decoration:underline}
     </div>
 
     <div class="section">
-      <h2>作品展示</h2>
-      <div class="portfolio">
-        <strong>智能审批系统演示</strong>
-        <div class="when">2023</div>
-        <p>🔗 地址：<a href="#">https://example.com/project1</a></p>
-      </div>
-      <div class="portfolio">
-        <strong>日志监控平台演示</strong>
-        <div class="when">2022</div>
-        <p>🔗 地址：<a href="#">https://example.com/project2</a></p>
-      </div>
+      <h2>自我评价</h2>
+      <p>逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</p>
     </div>
 
     <div class="section">
-      <h2>自我评价</h2>
-      <p>逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</p>
+      <h2>作品展示</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>项目名称</th>
+            <th>年份</th>
+            <th>地址</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>智能审批系统演示</td>
+            <td>2023</td>
+            <td><a href="#">https://example.com/project1</a></td>
+          </tr>
+          <tr>
+            <td>日志监控平台演示</td>
+            <td>2022</td>
+            <td><a href="#">https://example.com/project2</a></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </section>
 </main>
