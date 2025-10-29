@@ -1,195 +1,393 @@
 <!doctype html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>个人简历 — 科技商务风</title>
-<style>
-:root {
-  --bg1: #0a192f;
-  --bg2: #1a2c3f;
-  --card: rgba(255, 255, 255, 0.06);
-  --text: #e6eef7;
-  --muted: #94a3b8;
-  --accent: #0078D7;
-  --accent2: #00C6AE;
-  --radius: 14px;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-}
-*{box-sizing:border-box}
-html,body{height:100%; margin:0; padding:0; user-select:none;}
-body{
-  display:flex; justify-content:center; align-items:flex-start;
-  background: linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text);
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-}
-.loading-wrap{position:fixed; inset:0; display:flex;align-items:center;justify-content:center; z-index:200; background:linear-gradient(180deg, rgba(10,25,47,0.9), rgba(10,25,47,0.7)); transition:opacity .5s ease, visibility .5s ease}
-.loading{width:260px; height:8px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden; position:relative}
-.flow{position:absolute; left:-40%; top:0; height:100%; width:40%; background:linear-gradient(90deg, transparent, rgba(0,198,174,0.9), transparent); transform:skewX(-20deg); animation:flow 1.4s linear infinite}
-@keyframes flow{ from{left:-50%} to{left:130%} }
-.loading-text{color:var(--muted); font-size:13px; margin-top:12px}
-.hidden{opacity:0; visibility:hidden}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>个人简历</title>
+    <style>
+        :root {
+            --bg1: #0a192f;
+            --bg2: #1a2c3f;
+            --card: rgba(255, 255, 255, 0.06);
+            --text: #e6eef7;
+            --muted: #94a3b8;
+            --accent: #0078D7;
+            --accent2: #00C6AE;
+            --radius: 14px;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        }
 
-.resume{
-  width:100%; max-width:960px; border-radius:var(--radius); background:var(--card);
-  backdrop-filter: blur(18px); box-shadow:0 10px 40px rgba(0,0,0,0.6);
-  display:grid; grid-template-columns:300px 1fr; overflow:hidden; border:1px solid rgba(255,255,255,0.05); margin:40px 20px; gap:0;
-  height:90vh;
-}
-@media (max-width:860px){.resume{grid-template-columns:1fr; height:auto}}
-.left{
-  padding:36px 28px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-right:1px solid rgba(255,255,255,0.04);
-  position:sticky; top:0; align-self:start; height:100%; overflow:hidden;
-}
-.avatar{width:110px;height:110px;border-radius:50%;border:2px solid var(--accent); display:flex;align-items:center;justify-content:center;margin:0 auto 18px;background:rgba(255,255,255,0.03);color:var(--accent2);font-weight:700}
-h1{text-align:center;margin:6px 0;font-size:22px;color:var(--accent2)}
-.title{text-align:center;font-size:14px;color:var(--muted);margin-bottom:24px}
-.section{margin-top:24px}
-.contact div, .skills div, .job div, .project div, .portfolio div{margin:6px 0;font-size:14px; line-height:1.6}
-.skills .skill{display:inline-block;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 10px;margin:4px 4px 4px 0;font-size:13px;color:var(--accent2)}
-.right{
-  padding:36px 32px; display:flex; flex-direction:column; gap:28px; overflow-y:auto; position:relative;
-}
-.right::-webkit-scrollbar{width:8px}
-.right::-webkit-scrollbar-thumb{background:rgba(0,198,174,0.6); border-radius:4px}
-.right::-webkit-scrollbar-track{background:rgba(255,255,255,0.02); border-radius:4px}
-h2{color:var(--accent); border-bottom:2px solid rgba(0,0,0,0); display:inline-block;margin-bottom:16px;font-size:18px}
-.job,.project,.portfolio{display:flex; flex-direction:column; gap:6px}
-.job h3,.project strong,.portfolio strong{margin:0;color:#fff;font-size:15px}
-.when{font-size:13px;color:var(--muted)}
-ul{margin:6px 0 0 20px; padding:0} li{margin-bottom:4px; line-height:1.5}
-a{color:var(--accent2); text-decoration:underline}
-.download{display:block;margin:22px auto 0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
-table{width:100%; border-collapse:collapse; margin-top:8px}
-table th, table td{border:1px solid rgba(255,255,255,0.2); padding:8px; text-align:left}
-table th{background:rgba(0,198,174,0.3)}
-</style>
+        * {
+            box-sizing: border-box
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background: linear-gradient(135deg, var(--bg1), var(--bg2));
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .loading-wrap {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            background: linear-gradient(180deg, rgba(10, 25, 47, 0.9), rgba(10, 25, 47, 0.7));
+            transition: opacity .5s ease, visibility .5s ease
+        }
+
+        .loading {
+            width: 260px;
+            height: 8px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            overflow: hidden;
+            position: relative
+        }
+
+        .flow {
+            position: absolute;
+            left: -40%;
+            top: 0;
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, transparent, rgba(0, 198, 174, 0.9), transparent);
+            transform: skewX(-20deg);
+            animation: flow 1.4s linear infinite
+        }
+
+        @keyframes flow {
+            from {
+                left: -50%
+            }
+            to {
+                left: 130%
+            }
+        }
+
+        .loading-text {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 12px
+        }
+
+        .hidden {
+            opacity: 0;
+            visibility: hidden
+        }
+
+        .resume {
+            width: 100%;
+            max-width: 960px;
+            border-radius: var(--radius);
+            background: var(--card);
+            backdrop-filter: blur(18px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            display: grid;
+            grid-template-columns:300px 1fr;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 40px 20px;
+            gap: 0;
+            height: 90vh;
+        }
+
+        @media (max-width: 860px) {
+            .resume {
+                grid-template-columns:1fr;
+                height: auto
+            }
+        }
+
+        .left {
+            padding: 36px 28px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+            border-right: 1px solid rgba(255, 255, 255, 0.04);
+            position: sticky;
+            top: 0;
+            align-self: start;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--accent2);
+            font-weight: 700
+        }
+
+        h1 {
+            text-align: center;
+            margin: 6px 0;
+            font-size: 22px;
+            color: var(--accent2)
+        }
+
+        .title {
+            text-align: center;
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 24px
+        }
+
+        .section {
+            margin-top: 24px
+        }
+
+        .contact div, .skills div, .job div, .project div, .portfolio div {
+            margin: 6px 0;
+            font-size: 14px;
+            line-height: 1.6
+        }
+
+        .skills .skill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            padding: 6px 10px;
+            margin: 4px 4px 4px 0;
+            font-size: 13px;
+            color: var(--accent2)
+        }
+
+        .right {
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .right::-webkit-scrollbar {
+            width: 8px
+        }
+
+        .right::-webkit-scrollbar-thumb {
+            background: rgba(0, 198, 174, 0.6);
+            border-radius: 4px
+        }
+
+        .right::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 4px
+        }
+
+        h2 {
+            color: var(--accent);
+            border-bottom: 2px solid rgba(0, 0, 0, 0);
+            display: inline-block;
+            margin-bottom: 16px;
+            font-size: 18px
+        }
+
+        .job, .project, .portfolio {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .job h3, .project strong, .portfolio strong {
+            margin: 0;
+            color: #fff;
+            font-size: 15px
+        }
+
+        .when {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        ul {
+            margin: 6px 0 0 20px;
+            padding: 0
+        }
+
+        li {
+            margin-bottom: 4px;
+            line-height: 1.5
+        }
+
+        a {
+            color: var(--accent2);
+            text-decoration: underline
+        }
+
+        .download {
+            display: block;
+            margin: 22px auto 0;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px
+        }
+
+        table th, table td {
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            text-align: left
+        }
+
+        table th {
+            background: rgba(0, 198, 174, 0.3)
+        }
+    </style>
 </head>
 <body>
 <div id="loadingWrap" class="loading-wrap">
-  <div style="text-align:center">
-    <div class="loading" role="progressbar" aria-label="加载中">
-      <div class="flow"></div>
+    <div style="text-align:center">
+        <div class="loading" role="progressbar" aria-label="加载中">
+            <div class="flow"></div>
+        </div>
+        <div class="loading-text">正在加载…</div>
     </div>
-    <div class="loading-text">正在加载简历…</div>
-  </div>
 </div>
 
 <main class="resume" role="main">
-  <aside class="left">
-    <div class="avatar">头像</div>
-    <h1>姓名</h1>
-    <div class="title">Java 全栈工程师 · 企业级系统</div>
-    <div class="section contact">
-      <div>📱 手机：186-xxxx-xxxx</div>
-      <div>✉️ 邮箱：you@example.com</div>
-      <div style="display: none">🌐 GitHub：github.com/xxx</div>
-    </div>
+    <aside class="left">
+        <div class="avatar">头像</div>
+        <h1>姓名</h1>
+        <div class="title">Java 全栈工程师 · 企业级系统</div>
+        <div class="section contact">
+            <div>📱 手机：186-xxxx-xxxx</div>
+            <div>✉️ 邮箱：you@example.com</div>
+            <div style="display: none">🌐 GitHub：github.com/xxx</div>
+        </div>
 
-    <div class="section skills">
-      <h3>专业技能</h3>
-      <div class="skill">Java</div>
-      <div class="skill">Spring Boot</div>
-      <div class="skill">微服务</div>
-      <div class="skill">MySQL</div>
-      <div class="skill">Redis</div>
-      <div class="skill">Vue</div>
-      <div class="skill">Docker</div>
-    </div>
+        <div class="section skills">
+            <h3>专业技能</h3>
+            <div class="skill">Java</div>
+            <div class="skill">Spring Boot</div>
+            <div class="skill">微服务</div>
+            <div class="skill">MySQL</div>
+            <div class="skill">Redis</div>
+            <div class="skill">Vue</div>
+            <div class="skill">Docker</div>
+        </div>
 
-    <button style="display: none" id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
-  </aside>
+        <button style="display: none" id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
+    </aside>
 
-  <section class="right">
-    <div class="section">
-      <h2>职业概况</h2>
-      <p>具备企业级后端与前端实践经验，熟悉微服务架构、流程引擎集成与安全通信设计，注重系统可靠性与工程化交付。</p>
-    </div>
+    <section class="right">
+        <div class="section">
+            <h2>职业概况</h2>
+            <p>具备企业级后端与前端实践经验，熟悉微服务架构、流程引擎集成与安全通信设计，注重系统可靠性与工程化交付。</p>
+        </div>
 
-    <div class="section">
-      <h2>工作经历</h2>
-      <div class="job">
-        <h3>山东大成科技 · Java开发工程师</h3>
-        <div class="when">2021.03 – 至今</div>
-        <ul>
-          <li>负责后端核心模块与微服务拆分，设计模块边界与接口契约。</li>
-          <li>主导流程引擎集成与跨系统加密通信（RSA）方案。</li>
-          <li>推动 CI/CD 改进，提升部署效率与系统可用性。</li>
-        </ul>
-      </div>
-    </div>
-    <div class="section">
-      <h2>项目经历</h2>
-      <div class="project">
-        <strong>企业智能审批系统</strong>
-        <div class="when">2023</div>
-        <p>负责流程编排、任务调度与安全通信设计，保证跨应用数据传输安全。</p>
-      </div>
-      <div class="project">
-        <strong>日志监控与告警平台</strong>
-        <div class="when">2022</div>
-        <p>搭建日志采集管道，实现实时告警与可视化报表，提升故障响应速度。</p>
-      </div>
-    </div>
+        <div class="section">
+            <h2>工作经历</h2>
+            <div class="job">
+                <h3>山东大成科技 · Java开发工程师</h3>
+                <div class="when">2021.03 – 至今</div>
+                <ul>
+                    <li>负责后端核心模块与微服务拆分，设计模块边界与接口契约。</li>
+                    <li>主导流程引擎集成与跨系统加密通信（RSA）方案。</li>
+                    <li>推动 CI/CD 改进，提升部署效率与系统可用性。</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>项目经历</h2>
+            <div class="project">
+                <strong>企业智能审批系统</strong>
+                <div class="when">2023</div>
+                <p>负责流程编排、任务调度与安全通信设计，保证跨应用数据传输安全。</p>
+            </div>
+            <div class="project">
+                <strong>日志监控与告警平台</strong>
+                <div class="when">2022</div>
+                <p>搭建日志采集管道，实现实时告警与可视化报表，提升故障响应速度。</p>
+            </div>
+        </div>
 
-    <div class="section">
-      <h2>教育背景</h2>
-      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
-      <div>北京理工大学 · 信息管理与信息系统 · 2020.09 – 2022.07</div>
-    </div>
+        <div class="section">
+            <h2>教育背景</h2>
+            <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
+            <div>北京理工大学 · 信息管理与信息系统 · 2020.09 – 2022.07</div>
+        </div>
 
-    <div class="section">
-      <h2>证书</h2>
-      <div>Oracle Java SE 11 Programmer</div>
-      <div>PMP 项目管理专业认证</div>
-    </div>
+        <div class="section">
+            <h2>证书</h2>
+            <div>Oracle Java SE 11 Programmer</div>
+            <div>PMP 项目管理专业认证</div>
+        </div>
 
-    <div class="section">
-      <h2>自我评价</h2>
-      <p>逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</p>
-    </div>
-    <div class="section">
-      <h2>作品展示</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>项目名称</th>
-            <th>年份</th>
-            <th>地址</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>智能审批系统 Demo</td>
-            <td>2023</td>
-            <td><a href="https://github.com/yourname/approval-system" target="_blank">访问链接</a></td>
-          </tr>
-          <tr>
-            <td>日志监控平台</td>
-            <td>2022</td>
-            <td><a href="https://github.com/yourname/log-monitor" target="_blank">访问链接</a></td>
-          </tr>
-          <tr>
-            <td>个人博客系统</td>
-            <td>2021</td>
-            <td><a href="https://github.com/yourname/blog-system" target="_blank">访问链接</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+        <div class="section">
+            <h2>自我评价</h2>
+            <p>逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</p>
+        </div>
+        <div class="section">
+            <h2>作品展示</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>项目名称</th>
+                    <th>年份</th>
+                    <th>地址</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>智能审批系统 Demo</td>
+                    <td>2023</td>
+                    <td><a href="https://github.com/yourname/approval-system" target="_blank">访问链接</a></td>
+                </tr>
+                <tr>
+                    <td>日志监控平台</td>
+                    <td>2022</td>
+                    <td><a href="https://github.com/yourname/log-monitor" target="_blank">访问链接</a></td>
+                </tr>
+                <tr>
+                    <td>个人博客系统</td>
+                    <td>2021</td>
+                    <td><a href="https://github.com/yourname/blog-system" target="_blank">访问链接</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 </main>
 
 <script>
-// 随机 1-5 秒隐藏加载动画
-window.addEventListener('load', () => {
-  const wrap = document.getElementById('loadingWrap');
-  const t = Math.random()*4000 + 1000; // 1000~5000ms
-  setTimeout(() => {
-    wrap.classList.add('hidden');
-  }, t);
-});
+    // 随机 1-5 秒隐藏加载动画
+    window.addEventListener('load', () => {
+        const wrap = document.getElementById('loadingWrap');
+        const t = Math.random() * 4000 + 1000; // 1000~5000ms
+        setTimeout(() => {
+            wrap.classList.add('hidden');
+        }, t);
+    });
 </script>
 
 </body>
