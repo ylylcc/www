@@ -1,1 +1,163 @@
 建设中
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>个人简历 — 网页版</title>
+  <style>
+    :root{
+      --bg:#f7f8fb; --card:#ffffff; --muted:#6b7280; --accent:#0f766e; --glass: rgba(15,118,110,0.06);
+      --radius:12px; --maxw:900px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{margin:24px; background:linear-gradient(180deg,var(--bg),#ffffff); color:#111827}
+    .wrap{max-width:var(--maxw); margin:0 auto}
+    .card{background:var(--card); border-radius:var(--radius); box-shadow:0 8px 30px rgba(17,24,39,0.06); overflow:hidden; display:grid; grid-template-columns:320px 1fr}
+    @media (max-width:840px){.card{grid-template-columns:1fr} .left{order:0}}
+    .left{padding:28px; background: linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.9)); border-right:1px solid #f1f5f9}
+    .right{padding:28px}
+    .avatar{width:96px;height:96px;border-radius:14px;background:var(--glass); display:flex;align-items:center;justify-content:center;font-weight:600}
+    h1{font-size:22px;margin:8px 0}
+    .title{color:var(--accent); font-weight:600}
+    .muted{color:var(--muted); font-size:13px}
+    .section{margin-top:20px}
+    .skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .skill{background:#f1f5f9;padding:6px 10px;border-radius:999px;font-size:13px}
+    .meta{margin-top:10px;font-size:14px}
+    .meta div{margin:8px 0}
+    .contact a{color:var(--accent); text-decoration:none}
+    .job{margin-bottom:14px}
+    .job h3{margin:0;font-size:16px}
+    .job .when{font-size:13px;color:var(--muted)}
+    .bullet{margin:6px 0 6px 18px}
+    .projects .proj{margin-bottom:12px}
+    .download{display:inline-block;padding:8px 12px;border-radius:10px;background:var(--accent);color:white;text-decoration:none;font-weight:600}
+
+    /* print friendly */
+    @media print{body{background:white} .card{box-shadow:none; border:none} .left{border-right:none}}
+
+    /* small helpers (editable look) */
+    [contenteditable]{outline:2px dashed transparent; padding:2px}
+    [contenteditable]:focus{outline-color:rgba(15,118,110,0.18); border-radius:6px}
+
+    /* subtle footer */
+    .footer{margin-top:18px;font-size:13px;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <div>
+        <strong class="muted">可直接在页面上编辑（点击文字） • 导出为 PDF 请使用“打印/保存为 PDF”</strong>
+      </div>
+      <div>
+        <button onclick="window.print()" class="download">打印 / 导出为 PDF</button>
+      </div>
+    </div>
+
+    <main class="card" role="main">
+      <aside class="left">
+        <div style="display:flex;gap:14px;align-items:center">
+          <div class="avatar" aria-hidden="true">头像</div>
+          <div>
+            <h1 contenteditable="true" id="name">姓名（点击编辑）</h1>
+            <div class="muted" contenteditable="true" id="tagline">我爱编码 · Java全栈工程师 · 济南</div>
+          </div>
+        </div>
+
+        <div class="section contact">
+          <div class="meta"><strong>联系方式</strong></div>
+          <div contenteditable="true">📱 手机：186-xxxx-xxxx</div>
+          <div contenteditable="true">✉️ 邮箱：you@example.com</div>
+          <div contenteditable="true">🔗 个人主页 / GitHub：github.com/yourname</div>
+        </div>
+
+        <div class="section">
+          <div class="meta"><strong>技术栈</strong></div>
+          <div class="skills">
+            <div class="skill">Java</div>
+            <div class="skill">Spring Boot</div>
+            <div class="skill">MySQL</div>
+            <div class="skill">Redis</div>
+            <div class="skill">Vue</div>
+            <div class="skill">Docker</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="meta"><strong>证书 / 亮点</strong></div>
+          <div contenteditable="true">良好的沟通和问题解决能力 · 熟悉流程引擎与加密通信（RSA）</div>
+        </div>
+
+        <div class="section">
+          <div class="meta"><strong>教育</strong></div>
+          <div contenteditable="true">学校名称 · 专业 · 2016.09 — 2020.07</div>
+        </div>
+
+      </aside>
+
+      <section class="right">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:20px">
+          <div style="flex:1">
+            <h2 class="title" contenteditable="true">求职意向：Java 全栈工程师</h2>
+            <div class="muted" contenteditable="true">全职 / 期望城市：济南</div>
+          </div>
+          <div style="text-align:right">
+            <div class="muted">更新时间：<span contenteditable="true">2025-10-29</span></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>工作经历</h3>
+          <div class="job">
+            <h3 contenteditable="true">公司名称 · Java开发工程师</h3>
+            <div class="when muted" contenteditable="true">2021.03 — 至今 · 济南</div>
+            <ul>
+              <li class="bullet" contenteditable="true">负责核心后端模块开发，使用 Spring Boot 构建微服务。</li>
+              <li class="bullet" contenteditable="true">参与流程引擎集成，负责密钥与加密通信（RSA）相关设计。</li>
+              <li class="bullet" contenteditable="true">优化数据库与缓存策略，使系统性能提升约 30%。</li>
+            </ul>
+          </div>
+
+          <div class="job">
+            <h3 contenteditable="true">早期公司 / 岗位</h3>
+            <div class="when muted" contenteditable="true">2019.07 — 2021.02</div>
+            <ul>
+              <li class="bullet" contenteditable="true">参与多个中后台项目，负责接口设计与联调。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section projects">
+          <h3>项目经验</h3>
+          <div class="proj">
+            <strong contenteditable="true">智能审批系统</strong>
+            <div class="muted" contenteditable="true">（2023）</div>
+            <div contenteditable="true">项目简介：以流程引擎为核心，负责后端流程编排、任务分配与安全通信。我的贡献包括：设计流程配置存储、实现 RSA 加解密通信模块、编写单元测试与部署脚本。</div>
+          </div>
+
+          <div class="proj">
+            <strong contenteditable="true">云端日志分析平台</strong>
+            <div class="muted" contenteditable="true">（2022）</div>
+            <div contenteditable="true">项目简介：实现日志采集、解析与告警规则，使用 Elastic Stack 与定制化数据处理管道。</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>自我评价</h3>
+          <div contenteditable="true">性格踏实，喜欢平淡且有条理的工作方式。擅长把复杂问题拆解为可执行任务，沟通高效，注重可维护性与工程实践。</div>
+        </div>
+
+        <div class="section footer">
+          <div>模版说明：页面内文字均可直接点击编辑。替换完信息后可选择「打印/保存为 PDF」导出供投递使用。</div>
+        </div>
+
+      </section>
+    </main>
+
+    <div style="text-align:center;margin-top:18px;color:var(--muted);font-size:13px">如需我把占位符替换成你的真实信息，请把信息贴过来，我会为你填入并生成最终版。</div>
+  </div>
+</body>
+</html>
