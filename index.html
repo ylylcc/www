@@ -58,17 +58,96 @@ a{color:var(--accent2); text-decoration:underline}
     <div class="loading-text">正在加载简历…</div>
   </div>
 </div>
+
 <main class="resume" role="main">
-  <!-- 左侧和右侧内容保持不变 -->
+  <aside class="left">
+    <div class="avatar">头像</div>
+    <h1>姓名</h1>
+    <div class="title">Java 全栈工程师 · 企业级系统</div>
+    <div class="section contact">
+      <div>📱 手机：186-xxxx-xxxx</div>
+      <div>✉️ 邮箱：you@example.com</div>
+      <div>🌐 GitHub：github.com/yourname</div>
+    </div>
+    <div class="section skills">
+      <h3>技能专长</h3>
+      <div class="skill">Java</div>
+      <div class="skill">Spring Boot</div>
+      <div class="skill">微服务</div>
+      <div class="skill">MySQL</div>
+      <div class="skill">Redis</div>
+      <div class="skill">Vue</div>
+      <div class="skill">Docker</div>
+    </div>
+    <div class="section education">
+      <h3>教育背景</h3>
+      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
+    </div>
+    <button id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
+  </aside>
+
+  <section class="right">
+    <div class="section">
+      <h2>职业概况</h2>
+      <p>具备企业级后端与前端实践经验，熟悉微服务架构、流程引擎集成与安全通信设计，注重系统可靠性与工程化交付。</p>
+    </div>
+
+    <div class="section">
+      <h2>工作经历</h2>
+      <div class="job">
+        <h3>山东大成科技 · Java开发工程师</h3>
+        <div class="when">2021.03 – 至今</div>
+        <ul>
+          <li>负责后端核心模块与微服务拆分，设计模块边界与接口契约。</li>
+          <li>主导流程引擎集成与跨系统加密通信（RSA）方案。</li>
+          <li>推动 CI/CD 改进，提升部署效率与系统可用性。</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>项目经验</h2>
+      <div class="project">
+        <strong>企业智能审批系统</strong>
+        <div class="when">2023</div>
+        <p>负责流程编排、任务调度与安全通信设计，保证跨应用数据传输安全。</p>
+      </div>
+      <div class="project">
+        <strong>日志监控与告警平台</strong>
+        <div class="when">2022</div>
+        <p>搭建日志采集管道，实现实时告警与可视化报表，提升故障响应速度。</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>作品展示</h2>
+      <div class="portfolio">
+        <strong>智能审批系统演示</strong>
+        <div class="when">2023</div>
+        <p>🔗 地址：<a href="#">https://example.com/project1</a></p>
+      </div>
+      <div class="portfolio">
+        <strong>日志监控平台演示</strong>
+        <div class="when">2022</div>
+        <p>🔗 地址：<a href="#">https://example.com/project2</a></p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>自我评价</h2>
+      <p>逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</p>
+    </div>
+  </section>
 </main>
+
 <script>
-  window.addEventListener('load', function(){
-    const wrap = document.getElementById('loadingWrap');
-    if(wrap){
-      const randomTime = Math.random() * 4000 + 1000; // 1-5秒随机时间
-      setTimeout(()=>{ wrap.classList.add('hidden'); setTimeout(()=>wrap.style.display='none',600); }, randomTime);
-    }
-  });
+window.addEventListener('load', function(){
+  const wrap = document.getElementById('loadingWrap');
+  if(wrap){
+    const randomTime = Math.random() * 4000 + 1000; // 1-5秒随机时间
+    setTimeout(()=>{ wrap.classList.add('hidden'); setTimeout(()=>wrap.style.display='none',600); }, randomTime);
+  }
+});
 </script>
 </body>
 </html>
