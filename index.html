@@ -1,218 +1,190 @@
-建设中
 <!doctype html>
 <html lang="zh-CN">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>个人简历 — 炫酷版</title>
+  <title>个人简历 — 科技商务风（带导航与加载）</title>
   <style>
     :root {
-      --bg1: #0f2027;
-      --bg2: #203a43;
-      --bg3: #2c5364;
-      --accent: #00f5d4;
-      --card: rgba(255, 255, 255, 0.08);
-      --text: #e0f2f1;
+      --bg1: #0a192f;
+      --bg2: #1a2a3c;
+      --card: rgba(255, 255, 255, 0.06);
+      --text: #e6eef7;
       --muted: #94a3b8;
-      --radius: 16px;
-      --glass: rgba(255, 255, 255, 0.15);
-      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      --accent: #0078D7;
+      --accent2: #00C6AE;
+      --glass: rgba(255,255,255,0.04);
+      --radius: 14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
     }
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; padding:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg,var(--bg1),var(--bg2)); color:var(--text);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
 
-    .resume {
-      width: 100%;
-      max-width: 960px;
-      border-radius: var(--radius);
-      backdrop-filter: blur(20px);
-      background: var(--card);
-      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.4);
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      animation: fadeIn 1s ease forwards;
+    /* --- top transparent navigation (A: 透明玻璃风) --- */
+    .topnav{
+      position:fixed; left:50%; transform:translateX(-50%); top:18px; z-index:60;
+      width:calc(100% - 80px); max-width:1100px; display:flex; justify-content:space-between; align-items:center;
+      padding:10px 18px; border-radius:12px; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.04);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 6px 20px rgba(2,6,23,0.6);
     }
+    .nav-left{display:flex;align-items:center;gap:12px}
+    .brand{font-weight:700;color:var(--accent2);letter-spacing:0.4px}
+    .nav-links{display:flex;gap:12px}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:14px;padding:6px 8px;border-radius:8px}
+    .nav-links a:hover{color:var(--text);background:rgba(255,255,255,0.02)}
+    .nav-actions{display:flex;gap:10px;align-items:center}
+    .nav-btn{background:linear-gradient(90deg,var(--accent),var(--accent2)); color:#fff; padding:8px 12px;border-radius:8px;border:none;cursor:pointer;font-weight:600}
 
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(30px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
+    /* --- loading overlay (B: 流动光带) --- */
+    .loading-wrap{position:fixed; inset:0; display:flex;align-items:center;justify-content:center; z-index:200; background:linear-gradient(180deg, rgba(10,25,47,0.9), rgba(10,25,47,0.7)); transition:opacity .5s ease, visibility .5s ease}
+    .loading{width:260px; height:8px; border-radius:999px; background:rgba(255,255,255,0.06); overflow:hidden; position:relative}
+    .flow{position:absolute; left:-40%; top:0; height:100%; width:40%; background:linear-gradient(90deg, transparent, rgba(0,198,174,0.9), transparent); transform:skewX(-20deg); animation:flow 1.4s linear infinite}
+    @keyframes flow{ from{left:-50%} to{left:130%} }
+    .loading-text{color:var(--muted); font-size:13px; margin-top:12px}
 
-    @media (max-width: 860px) {
-      .resume { grid-template-columns: 1fr; }
-    }
+    .hidden{opacity:0; visibility:hidden}
 
-    .left {
-      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-      padding: 30px;
-      border-right: 1px solid rgba(255,255,255,0.1);
-    }
+    /* --- resume card --- */
+    .resume{width:100%; max-width:960px; border-radius:var(--radius); background:var(--card); backdrop-filter: blur(18px); box-shadow:0 10px 40px rgba(0,0,0,0.6); display:grid; grid-template-columns:300px 1fr; overflow:hidden; border:1px solid rgba(255,255,255,0.05); margin:40px 20px}
+    @media (max-width:860px){.resume{grid-template-columns:1fr}}
+    .left{padding:36px 28px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-right:1px solid rgba(255,255,255,0.04)}
+    .avatar{width:110px;height:110px;border-radius:50%;border:2px solid var(--accent); display:flex;align-items:center;justify-content:center;margin:0 auto 18px;background:rgba(255,255,255,0.03);color:var(--accent2);font-weight:700}
+    h1{text-align:center;margin:6px 0;font-size:22px;color:var(--accent2)}
+    .title{text-align:center;font-size:14px;color:var(--muted);margin-bottom:18px}
+    .section{margin-top:18px}
+    .contact div, .education div{margin:6px 0;font-size:14px}
+    .skills .skill{display:inline-block;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 10px;margin:4px;font-size:13px;color:var(--accent2)}
+    .right{padding:36px 32px}
+    h2{color:var(--accent); border-bottom:2px solid rgba(0,0,0,0); display:inline-block;margin-bottom:12px;font-size:18px}
+    .job,.project{margin-bottom:18px}
+    .job h3,.project strong{margin:0;color:#fff;font-size:15px}
+    .when{font-size:13px;color:var(--muted)}
+    ul{margin:6px 0 0 20px} li{margin-bottom:6px}
 
-    .avatar {
-      width: 120px; height: 120px;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      display: flex; justify-content: center; align-items: center;
-      margin: 0 auto 20px;
-      font-weight: 600;
-      color: var(--accent);
-      background: rgba(0,0,0,0.3);
-      font-size: 18px;
-    }
+    .download{display:block;margin:22px auto 0;background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:700}
 
-    h1 {
-      text-align: center;
-      font-size: 24px;
-      margin: 0;
-      color: var(--accent);
-    }
+    /* small interactive touches */
+    [contenteditable]{outline:2px dashed transparent;padding:2px}
+    [contenteditable]:focus{outline-color:rgba(0,198,174,0.14);border-radius:6px}
 
-    .tagline {
-      text-align: center;
-      color: var(--muted);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
-    .contact, .skills, .education, .highlight {
-      margin-top: 25px;
-    }
-
-    .contact div, .education div {
-      margin: 8px 0;
-      font-size: 14px;
-    }
-
-    .skills .skill {
-      display: inline-block;
-      background: var(--glass);
-      border-radius: 999px;
-      padding: 6px 12px;
-      margin: 4px;
-      font-size: 13px;
-      color: var(--accent);
-    }
-
-    .right {
-      padding: 30px;
-    }
-
-    h2 {
-      color: var(--accent);
-      margin-bottom: 12px;
-      font-size: 20px;
-      border-bottom: 2px solid var(--accent);
-      display: inline-block;
-    }
-
-    .job, .project {
-      margin-bottom: 20px;
-    }
-
-    .job h3, .project strong {
-      margin: 0;
-      color: #fff;
-      font-size: 16px;
-    }
-
-    .when {
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    ul { margin: 6px 0 0 20px; }
-    li { margin-bottom: 4px; }
-
-    .download {
-      display: block;
-      margin: 20px auto 0;
-      background: var(--accent);
-      color: #0f2027;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: all .2s;
-    }
-
-    .download:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,245,212,0.4); }
+    /* responsive tweaks for nav on small screens */
+    @media (max-width:600px){.topnav{width:calc(100% - 28px);padding:8px} .nav-links{display:none}}
   </style>
 </head>
 <body>
-  <div class="resume">
+
+  <!-- Loading overlay (flowing light band) -->
+  <div id="loadingWrap" class="loading-wrap">
+    <div style="text-align:center">
+      <div class="loading" role="progressbar" aria-label="加载中">
+        <div class="flow"></div>
+      </div>
+      <div class="loading-text">正在加载简历…</div>
+    </div>
+  </div>
+
+  <!-- Top transparent navigation (glass) -->
+  <nav class="topnav" aria-label="主导航">
+    <div class="nav-left">
+      <div class="brand">TechResume</div>
+      <div class="nav-links">
+        <a href="#about">关于</a>
+        <a href="#work">经历</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="document.getElementById('downloadBtn').click()">下载 PDF</button>
+    </div>
+  </nav>
+
+  <!-- Resume Content -->
+  <main class="resume" role="main">
     <aside class="left">
       <div class="avatar">头像</div>
       <h1 contenteditable="true">姓名</h1>
-      <div class="tagline" contenteditable="true">我爱代码 · Java全栈工程师 · 济南</div>
+      <div class="title" contenteditable="true">Java 全栈工程师 · 企业级系统</div>
 
-      <div class="contact">
+      <div class="section contact" id="contact">
         <div contenteditable="true">📱 手机：186-xxxx-xxxx</div>
         <div contenteditable="true">✉️ 邮箱：you@example.com</div>
-        <div contenteditable="true">🌐 github.com/yourname</div>
+        <div contenteditable="true">🌐 GitHub：github.com/yourname</div>
       </div>
 
-      <div class="skills">
+      <div class="section skills">
+        <h3>技能专长</h3>
         <div class="skill">Java</div>
         <div class="skill">Spring Boot</div>
-        <div class="skill">Vue</div>
+        <div class="skill">微服务</div>
+        <div class="skill">MySQL</div>
         <div class="skill">Redis</div>
+        <div class="skill">Vue</div>
         <div class="skill">Docker</div>
       </div>
 
-      <div class="education" contenteditable="true">
+      <div class="section education" contenteditable="true">
         <h3>教育背景</h3>
         <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
       </div>
 
-      <div class="highlight" contenteditable="true">
-        <h3>亮点</h3>
-        <div>善于沟通，解决问题能力强；精通后端安全与加密通信。</div>
-      </div>
-
-      <button class="download" onclick="window.print()">导出 PDF</button>
+      <button id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
     </aside>
 
     <section class="right">
-      <h2>工作经历</h2>
+      <h2 id="about">职业概况</h2>
+      <div contenteditable="true">具备企业级后端与前端实践经验，熟悉微服务架构、流程引擎集成与安全通信设计，注重系统可靠性与工程化交付。</div>
+
+      <h2 id="work">工作经历</h2>
       <div class="job">
         <h3 contenteditable="true">山东大成科技 · Java开发工程师</h3>
         <div class="when" contenteditable="true">2021.03 – 至今</div>
         <ul>
-          <li contenteditable="true">负责核心后端开发，构建微服务系统。</li>
-          <li contenteditable="true">实现流程引擎配置与 RSA 加密通信模块。</li>
-          <li contenteditable="true">数据库与缓存优化，性能提升 30%。</li>
+          <li contenteditable="true">负责后端核心模块与微服务拆分，设计模块边界与接口契约。</li>
+          <li contenteditable="true">主导流程引擎集成与跨系统加密通信（RSA）方案。</li>
+          <li contenteditable="true">推动 CI/CD 改进，提升部署效率与系统可用性。</li>
         </ul>
       </div>
 
-      <h2>项目经验</h2>
+      <h2 id="projects">项目经验</h2>
       <div class="project">
-        <strong contenteditable="true">智能审批系统</strong>
+        <strong contenteditable="true">企业智能审批系统</strong>
         <div class="when" contenteditable="true">2023</div>
-        <div contenteditable="true">后端流程引擎设计与安全通信实现，负责 RSA 密钥管理与部署。</div>
+        <div contenteditable="true">负责流程编排、任务调度与安全通信设计，设计了密钥管理与鉴权流程，保证跨应用数据传输安全。</div>
       </div>
 
       <div class="project">
-        <strong contenteditable="true">云端日志分析平台</strong>
+        <strong contenteditable="true">日志监控与告警平台</strong>
         <div class="when" contenteditable="true">2022</div>
-        <div contenteditable="true">基于 Elastic Stack 构建实时日志采集与告警系统。</div>
+        <div contenteditable="true">搭建日志采集管道，实现实时告警与可视化报表，提升故障响应速度。</div>
       </div>
 
       <h2>自我评价</h2>
-      <div contenteditable="true">热爱技术，喜欢平淡而持续的成长。擅长从复杂系统中抽象逻辑，追求代码的优雅与性能平衡。</div>
+      <div contenteditable="true">逻辑清晰，注重代码质量与架构稳定性；善于沟通协作，能将复杂需求拆解为可执行的工程任务。</div>
     </section>
-  </div>
+  </main>
+
+  <script>
+    // 简单控制加载动画 —— 页面加载完成后自动隐藏
+    window.addEventListener('load', function(){
+      const wrap = document.getElementById('loadingWrap');
+      if(wrap){ wrap.classList.add('hidden'); setTimeout(()=>wrap.style.display='none',600); }
+    });
+
+    // 平滑锚点滚动（小交互）
+    document.querySelectorAll('.topnav a').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault(); const id = a.getAttribute('href').slice(1); const el = document.getElementById(id);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+  </script>
 </body>
 </html>
-
