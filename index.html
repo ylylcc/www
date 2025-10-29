@@ -46,7 +46,7 @@ body{
 h1{text-align:center;margin:6px 0;font-size:22px;color:var(--accent2)}
 .title{text-align:center;font-size:14px;color:var(--muted);margin-bottom:24px}
 .section{margin-top:24px}
-.contact div, .education div{margin:6px 0;font-size:14px; line-height:1.6}
+.contact div, .education div, .certification div, .skills div{margin:6px 0;font-size:14px; line-height:1.6}
 .skills .skill{display:inline-block;background:rgba(255,255,255,0.03);border-radius:6px;padding:6px 10px;margin:4px 4px 4px 0;font-size:13px;color:var(--accent2)}
 .right{
   padding:36px 32px; display:flex; flex-direction:column; gap:28px; overflow-y:auto; position:relative;
@@ -83,8 +83,15 @@ a{color:var(--accent2); text-decoration:underline}
       <div>✉️ 邮箱：you@example.com</div>
       <div>🌐 GitHub：github.com/yourname</div>
     </div>
+
+    <div class="section education">
+      <h3>教育背景</h3>
+      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
+      <div>北京理工大学 · 信息管理与信息系统 · 2020.09 – 2022.07</div>
+    </div>
+
     <div class="section skills">
-      <h3>技能专长</h3>
+      <h3>专业技能</h3>
       <div class="skill">Java</div>
       <div class="skill">Spring Boot</div>
       <div class="skill">微服务</div>
@@ -93,19 +100,17 @@ a{color:var(--accent2); text-decoration:underline}
       <div class="skill">Vue</div>
       <div class="skill">Docker</div>
     </div>
-    <div class="section education">
-      <h3>教育背景</h3>
-      <div>山东大学 · 软件工程 · 2016.09 – 2020.07</div>
+
+    <div class="section certification">
+      <h3>证书</h3>
+      <div>Oracle Java SE 11 Programmer</div>
+      <div>PMP 项目管理专业认证</div>
     </div>
+
     <button id="downloadBtn" class="download" onclick="window.print()">导出为 PDF</button>
   </aside>
 
   <section class="right">
-    <div class="section">
-      <h2>职业概况</h2>
-      <p>具备企业级后端与前端实践经验，熟悉微服务架构、流程引擎集成与安全通信设计，注重系统可靠性与工程化交付。</p>
-    </div>
-
     <div class="section">
       <h2>工作经历</h2>
       <div class="job">
@@ -120,7 +125,7 @@ a{color:var(--accent2); text-decoration:underline}
     </div>
 
     <div class="section">
-      <h2>项目经验</h2>
+      <h2>项目经历</h2>
       <div class="project">
         <strong>企业智能审批系统</strong>
         <div class="when">2023</div>
