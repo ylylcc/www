@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SBTI 2026 专业版 - 行为特质深度测评</title>
+    <style>
+        :root {
+            --primary: #2563eb; --secondary: #7c3aed; --text: #1e293b; --bg: #f8fafc;
+        }
+        body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        
+        /* 预选区样式 */
+        .pre-check { background: #eff6ff; padding: 20px; border-radius: 15px; margin-bottom: 30px; border-left: 5px solid var(--primary); }
+        .pre-check h3 { margin-top: 0; font-size: 1rem; }
+
+        .progress-container { position: sticky; top: 0; background: white; padding: 15px 0; z-index: 10; border-bottom: 1px solid #eee; }
+        .bar-bg { height: 8px; background: #e2e8f0; border-radius: 4px; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--secondary)); width: 0%; transition: 0.4s; }
+
+        .question-item { padding: 25px 0; border-bottom: 1px solid #f1f5f9; }
+        .question-text { font-size: 1.1rem; font-weight: 600; margin-bottom: 15px; }
+
+        .options-group { display: flex; justify-content: space-between; align-items: center; max-width: 500px; margin: 0 auto; }
+        .opt-label { font-size: 0.8rem; color: #64748b; width: 50px; }
+
+        input[type="radio"] { appearance: none; width: 30px; height: 30px; border: 2px solid #cbd5e1; border-radius: 50%; cursor: pointer; transition: 0.2s; }
+        input[type="radio"]:checked { border-color: var(--primary); background: var(--primary); box-shadow: inset 0 0 0 4px white; }
+        
+        #result-view { display: none; }
+        .type-output { font-size: 4rem; font-weight: 900; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .score-bar-wrap { margin: 15px 0; }
+        .score-label { display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
+        
+        button#submit-btn { width: 100%; padding: 18px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1.1rem; cursor: pointer; margin-top: 30px; font-weight: bold; }
+        button#submit-btn:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="quiz-view">
+    <div class="header">
+        <h1>SBTI 行为特质测评</h1>
+        <p>基于 2026 标准行为常模 · 32题全量版</p>
+    </div>
+
+    <div class="pre-check">
+        <h3>Step 1: 预选背景（不计入性格得分，仅用于结果校准）</h3>
+        <p style="font-size: 0.9rem;">你当前的职业角色偏向：</p>
+        <select id="pre-role" style="padding: 8px; border-radius: 5px; width: 100%;">
+            <option value="exec">管理与决策层</option>
+            <option value="tech">技术与研发</option>
+            <option value="creative">创意与艺术</option>
+            <option value="service">服务与支持</option>
+            <option value="student">在校学生/学术研究</option>
+        </select>
+    </div>
+
+    <div class="progress-container">
+        <div class="bar-bg"><div class="bar-fill" id="p-bar"></div></div>
+        <p id="p-text" style="font-size: 0.8rem; text-align: right; margin: 5px 0;">已完成: 0%</p>
+    </div>
+
+    <div id="questions-list"></div>
+    <button id="submit-btn" onclick="calculate()">生成深度分析报告</button>
+</div>
+
+<div class="container" id="result-view">
+    <h2>测评报告结果</h2>
+    <div class="type-output" id="type-id">----</div>
+    <h3 id="type-title" style="color:var(--secondary)"></h3>
+    <div id="type-desc" style="background: #f1f5f9; padding: 20px; border-radius: 12px; line-height: 1.8;"></div>
+    
+    <h4 style="margin-top:30px">维度分布详情：</h4>
+    <div id="dimension-details"></div>
+    
+    <button onclick="location.reload()" style="margin-top:30px; padding: 10px; border: none; background: #ddd; cursor:pointer; border-radius: 8px;">重新测试</button>
+</div>
+
+<script>
+    // 扩展题库至 32 题
+    const bank = [
+        // E/I 维度
+        { id: 1, dim: 'E', q: "在社交场合，我通常是那个主动寻找话题的人。" },
+        { id: 2, dim: 'I', q: "我更喜欢通过邮件或即时通讯工具交流，而非当面沟通。" },
+        { id: 3, dim: 'E', q: "与他人共事会让我感到充满能量，独处太久则会感到乏味。" },
+        { id: 4, dim: 'I', q: "在发表观点前，我习惯先在脑中反复推敲，而不是边说边想。" },
+        { id: 5, dim: 'E', q: "我不介意成为会议或聚会的焦点。" },
+        { id: 6, dim: 'I', q: "我倾向于拥有几个深交的朋友，而不是大量的泛泛之交。" },
+        { id: 7, dim: 'E', q: "当遇到问题时，我首先想到的是找人商量讨论。" },
+        { id: 8, dim: 'I', q: "工作间隙，我更愿意戴上耳机独处，而不是和同事闲聊。" },
+
+        // S/N 维度
+        { id: 9, dim: 'S', q: "我更看重当下的现实和数据，而不是遥远的愿景。" },
+        { id: 10, dim: 'N', q: "我经常能发现看似不相关的事物之间的潜在联系。" },
+        { id: 11, dim: 'S', q: "学习新技能时，我喜欢先看到具体的示例和步骤。" },
+        { id: 12, dim: 'N', q: "我喜欢思考“如果...会怎样”这类假设性的、宏观的问题。" },
+        { id: 13, dim: 'S', q: "我被认为是一个脚踏实地、注重细节的人。" },
+        { id: 14, dim: 'N', q: "我容易对重复性的、缺乏创新的常规工作感到厌倦。" },
+        { id: 15, dim: 'S', q: "在解决问题时，我会优先寻找过往的成功案例作为参考。" },
+        { id: 16, dim: 'N', q: "我经常会有一些直觉性的“灵光一现”，且事后证明往往准确。" },
+
+        // T/F 维度
+        { id: 17, dim: 'T', q: "我认为公正公平的准则比个别人员的情感需求更重要。" },
+        { id: 18, dim: 'F', q: "我非常在意自己的决策是否会伤害到他人的感情。" },
+        { id: 19, dim: 'T', q: "我善于分析问题的逻辑缺陷，并直接给出批评建议。" },
+        { id: 20, dim: 'F', q: "我倾向于通过共情和鼓励来推动团队，而不是通过指标。" },
+        { id: 21, dim: 'T', q: "即使在压力巨大的冲突中，我也能保持冷酷的理性分析。" },
+        { id: 22, dim: 'F', q: "我经常会因为想帮助别人而推迟自己的工作进度。" },
+        { id: 23, dim: 'T', q: "我更看重一个人的能力和效率，而不是他的性格是否讨喜。" },
+        { id: 24, dim: 'F', q: "我被认为是一个温暖、感性且容易亲近的人。" },
+
+        // J/P 维度
+        { id: 25, dim: 'J', q: "我喜欢提前预定好旅行的所有行程，不喜欢临时变动。" },
+        { id: 26, dim: 'P', q: "我发现自己往往在最后一刻的压力下才能发挥出最高效率。" },
+        { id: 27, dim: 'J', q: "对我来说，生活和工作环境保持井然有序非常重要。" },
+        { id: 28, dim: 'P', q: "我更喜欢随遇而安，而不是被条条框框的计划所束缚。" },
+        { id: 29, dim: 'J', q: "完成任务后再休息会让我感到踏实，即使那意味着加班。" },
+        { id: 30, dim: 'P', q: "我喜欢同时启动多个项目，并根据当下的兴趣切换任务。" },
+        { id: 31, dim: 'J', q: "我习惯使用清单和闹钟来严格管理自己的时间。" },
+        { id: 32, dim: 'P', q: "我认为规则是死的，可以根据实际情况灵活调整。" }
+    ];
+
+    // 16 种完整人格解析
+    const typeMeta = {
+        "INTJ": { title: "战略策划者", desc: "你是天生的系统构建者。拥有极强的逻辑感和长远视野，独立且坚定。在复杂挑战面前，你总能找到最优解。" },
+        "INTP": { title: "逻辑分析家", desc: "你对知识有无穷的渴望。喜欢拆解复杂概念，不迷信权威，是纯粹的思想者和发明家。" },
+        "ENTJ": { title: "统帅领袖", desc: "你是高效的执行者。天生具有领导力，擅长整合资源达成宏伟目标，对低效行为容忍度极低。" },
+        "ENTP": { title: "智多星/辩论家", desc: "你是思维的弄潮儿。擅长从不同维度解构问题，思维敏捷，乐于在智力博弈中寻找灵感。" },
+        "INFJ": { title: "灵魂向导", desc: "你拥有极深的洞察力。既是理想主义者又是实践家，渴望理解人性的深层逻辑，并以此改变世界。" },
+        "INFP": { title: "治愈系调解员", desc: "你是核心价值的守护者。内心世界丰富，极具共情力，追求生活与内心信念的高度契合。" },
+        "ENFJ": { title: "魅力主人公", desc: "你是天生的感召者。极具同情心，擅长发现他人的潜能并引导他们成长，是团队的粘合剂。" },
+        "ENFP": { title: "自由探索者", desc: "你充满活力与想象力。总能发现生活中的积极面，擅长点燃他人的热情，讨厌被枯燥的常规束缚。" },
+        "ISTJ": { title: "可靠守护者", desc: "你是秩序的基石。务实、严谨、负责，尊重传统与规则，是组织中最值得信任的执行力量。" },
+        "ISFJ": { title: "坚毅后勤官", desc: "你安静、友善且极其负责。细心照顾周遭人的需求，在幕后默默奉献，对社区和家庭充满忠诚。" },
+        "ESTJ": { title: "秩序执行者", desc: "你是现实的管理者。推崇效率和规则，擅长组织人员和资源，确保每一件事都按部就班地进行。" },
+        "ESFJ": { title: "社交供给者", desc: "你是热情的协作者。在社交场合如鱼得水，极其关注他人的福利和集体的和谐，能创造温馨的环境。" },
+        "ISTP": { title: "冷静实践家", desc: "你是工具与技巧的大师。冷静观察现实，擅长处理突发状况，对事物的工作原理充满好奇。" },
+        "ISFP": { title: "随性艺术家", desc: "你是感官的捕捉者。生活在当下，追求美学与自由，不愿控制他人，也不愿被他人控制。" },
+        "ESTP": { title: "职场挑战者", desc: "你是行动派。反应极快，享受即刻的成果和冒险，能在复杂的变动中迅速找到切入点。" },
+        "ESFP": { title: "表演艺术家", desc: "你是快乐的源泉。慷慨、热情，极具社交魅力，能将任何平凡的时刻转化为有趣的体验。" }
+    };
+
+    function init() {
+        const list = document.getElementById('questions-list');
+        bank.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.className = 'question-item';
+            div.innerHTML = `
+                <div class="question-text">${index + 1}. ${item.q}</div>
+                <div class="options-group">
+                    <span class="opt-label">反对</span>
+                    <input type="radio" name="q${item.id}" value="1" onclick="updateProgress()">
+                    <input type="radio" name="q${item.id}" value="2" onclick="updateProgress()">
+                    <input type="radio" name="q${item.id}" value="3" onclick="updateProgress()">
+                    <input type="radio" name="q${item.id}" value="4" onclick="updateProgress()">
+                    <input type="radio" name="q${item.id}" value="5" onclick="updateProgress()">
+                    <span class="opt-label">赞同</span>
+                </div>
+            `;
+            list.appendChild(div);
+        });
+    }
+
+    function updateProgress() {
+        const checked = document.querySelectorAll('input[type="radio"]:checked').length;
+        const percent = Math.round((checked / bank.length) * 100);
+        document.getElementById('p-bar').style.width = percent + '%';
+        document.getElementById('p-text').innerText = `已完成: ${percent}%`;
+    }
+
+    function calculate() {
+        const answers = document.querySelectorAll('input[type="radio"]:checked');
+        if(answers.length < bank.length) {
+            alert("请完成所有 32 道题目后再提交分析报告。");
+            return;
+        }
+
+        let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+        bank.forEach(q => {
+            const val = parseInt(document.querySelector(`input[name="q${q.id}"]:checked`).value);
+            if(val > 3) scores[q.dim] += (val - 3);
+            else if(val < 3) {
+                const map = {E:'I', I:'E', S:'N', N:'S', T:'F', F:'T', J:'P', P:'J'};
+                scores[map[q.dim]] += (3 - val);
+            }
+        });
+
+        const code = [
+            scores.E >= scores.I ? 'E' : 'I',
+            scores.S >= scores.N ? 'S' : 'N',
+            scores.T >= scores.F ? 'T' : 'F',
+            scores.J >= scores.P ? 'J' : 'P'
+        ].join('');
+
+        showResult(code, scores);
+    }
+
+    function showResult(code, scores) {
+        document.getElementById('quiz-view').style.display = 'none';
+        document.getElementById('result-view').style.display = 'block';
+        window.scrollTo(0,0);
+
+        document.getElementById('type-id').innerText = code;
+        const meta = typeMeta[code];
+        document.getElementById('type-title').innerText = meta.title;
+        document.getElementById('type-desc').innerText = meta.desc;
+
+        const detail = document.getElementById('dimension-details');
+        detail.innerHTML = '';
+        [['E','I','精力来源'], ['S','N','认知模式'], ['T','F','判断逻辑'], ['J','P','行为习惯']].forEach(d => {
+            const sum = scores[d[0]] + scores[d[1]] || 1;
+            const p = Math.round((scores[d[0]] / sum) * 100);
+            detail.innerHTML += `
+                <div class="score-bar-wrap">
+                    <div class="score-label"><span>${d[0]} (${p}%)</span><span>${d[2]}</span><span>${d[1]} (${100-p}%)</span></div>
+                    <div class="bar-bg"><div class="bar-fill" style="width:${p}%; background:var(--primary)"></div></div>
+                </div>
+            `;
+        });
+    }
+
+    init();
+</script>
+</body>
+</html>
